@@ -1,0 +1,33 @@
+
+html, body { height: 100vh; }
+
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;  display: flex}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+h1 {
+  font-family: 'Untitled Serif', serif;
+  font-size: 100px;
+  line-height: 98px;
+  font-weight: 400;
+  width: 50%;
+}
+
+p {
+  font-family: 'Untitled Sans', serif;
+  font-size: 19px;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.20px;
+  width: 50%;
+}
+
+
+img {
+  width: 50%;
+}
