@@ -8,7 +8,7 @@ import { NfycService } from '../nfyc.service';
 })
 export class NfycProgressBarComponent implements OnInit {
 
-  value = 0;
+  value = 40;
   message = '';
   messages = ['Thank you registering..', 'Fetching Leetcode Profile..', 'Validating..', 'Almost there..', 'Completed!', 'Failed'];
   constructor(private nfycService: NfycService) { }
