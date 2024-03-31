@@ -13,7 +13,7 @@ import { StepperSelectionEvent } from '@angular/cdk/stepper';
   templateUrl: './nfyc-stepper-form.component.html',
   styleUrls: ['./nfyc-stepper-form.component.css']
 })
-export class NfycStepperFormComponent{
+export class NfycStepperFormComponent implements OnInit{
 
   firstFormGroup = this.formBuilder.group({
     firstCtrl: ['', Validators.required],
@@ -22,10 +22,17 @@ export class NfycStepperFormComponent{
     secondCtrl: ['', Validators.email],
   });
 
+  public getScreenWidth: any;
+  public getScreenHeight: any;
+
   isLinear = true;
   @ViewChild('stepper') stepper: MatStepper;
   constructor(private formBuilder: FormBuilder, public nfycService: NfycService) {}
 
+  ngOnInit() {
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
+  }
 
   createUser() {
     if (this.firstFormGroup.valid && this.secondFormGroup.valid) {

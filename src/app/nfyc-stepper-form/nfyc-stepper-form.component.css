@@ -1,5 +1,7 @@
 .mat-stepper-horizontal {
   margin-top: 8px;
+  margin-right: 5%;
+  margin-left: auto;
 }
 
 .mat-mdc-form-field {
