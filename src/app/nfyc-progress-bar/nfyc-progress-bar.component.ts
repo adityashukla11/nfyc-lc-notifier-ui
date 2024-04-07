@@ -8,9 +8,9 @@ import { NfycService } from '../nfyc.service';
 })
 export class NfycProgressBarComponent implements OnInit {
 
-  value = 40;
+  value = 0;
   message = '';
-  messages = ['Thank you registering..', 'Fetching Leetcode Profile..', 'Validating..', 'Almost there..', 'Completed!', 'Failed'];
+  messages = ['Thank you for registering..', 'Fetching Leetcode Profile..', 'Retrieving Recent Accepted Solutions...', 'Almost there..', 'Completed!', 'Failed'];
   constructor(private nfycService: NfycService) { }
 
   progressBarColor = 'success';
