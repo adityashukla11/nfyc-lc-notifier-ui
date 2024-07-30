@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { NfycService } from '../nfyc.service';
 import { Concept } from '../Concepts';
@@ -9,7 +9,7 @@ import { Concept } from '../Concepts';
   styleUrls: ['./nfyc-concept-home.component.css'],
   providers: [NfycService]
 })
-export class NfycConceptHomeComponent implements OnInit {
+export class NfycConceptHomeComponent implements OnInit, OnDestroy{
   conceptForm: FormGroup;
   private subscription: any;
 
@@ -49,5 +49,11 @@ export class NfycConceptHomeComponent implements OnInit {
     }
     this.conceptService.resetService();
     this.conceptForm.reset();
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

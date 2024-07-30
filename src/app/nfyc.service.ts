@@ -46,6 +46,7 @@ export class NfycService {
         this.messageIndexEmitter.next(valueToEmit);
         messageIndex++;
     });
+    return messageSubscription;
   }
   addConceptForUser(data: Concept) {
     this.isLoading = true;

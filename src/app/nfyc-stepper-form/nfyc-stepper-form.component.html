@@ -28,17 +28,14 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
-      <div *ngIf='!this.nfycService.isLoading'>
-        <p [ngStyle]="{'color': (this.nfycService.errorMessage !== '') ? 'red' : 'black'}"> {{this.nfycService.errorMessage==='' ? this.nfycService.apiResponse : this.nfycService.errorMessage}}.</p>
-        <div>
-          <button mat-button (click)="stepper.reset(); resetSettings()">Reset</button>
-        </div>
-      </div>
+      <div *ngIf='this.nfycService.apiResponse'> {{this.nfycService.apiResponse}}</div>
+      <div *ngIf='this.nfycService.errorMessage'> {{this.nfycService.errorMessage}}</div>
+      <button mat-button (click)="stepper.reset(); resetSettings()">Reset</button>
     </mat-step>
   </mat-stepper>
 
   <div *ngIf='this.nfycService.isLoading'>
-    <app-nfyc-progress-bar></app-nfyc-progress-bar>
+    <app-nfyc-progress-bar [nfycService] = "this.nfycService"></app-nfyc-progress-bar>
   </div>
 </div>
 
