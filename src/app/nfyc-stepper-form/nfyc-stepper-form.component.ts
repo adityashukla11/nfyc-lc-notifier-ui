@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -11,9 +11,12 @@ import { StepperSelectionEvent } from '@angular/cdk/stepper';
 @Component({
   selector: 'app-nfyc-stepper-form',
   templateUrl: './nfyc-stepper-form.component.html',
-  styleUrls: ['./nfyc-stepper-form.component.css']
+  styleUrls: ['./nfyc-stepper-form.component.css'],
+  providers: [NfycService]
 })
-export class NfycStepperFormComponent implements OnInit{
+export class NfycStepperFormComponent implements OnInit, OnDestroy {
+
+  private subscription: any;
 
   firstFormGroup = this.formBuilder.group({
     firstCtrl: ['', Validators.required],
@@ -35,18 +38,25 @@ export class NfycStepperFormComponent implements OnInit{
   }
 
   createUser() {
+    this.nfycService.resetService();
     if (this.firstFormGroup.valid && this.secondFormGroup.valid) {
     const lcUsername = this.firstFormGroup.get('firstCtrl').value;
     const email = this.secondFormGroup.get('secondCtrl').value;
     const nfycUser = NfycLcUser.getNfycUser('Test', lcUsername, email);
     this.stepper.steps.forEach(step => step.editable = false);
-    this.nfycService.createLcUser(nfycUser);
+    this.subscription = this.nfycService.createLcUser(nfycUser);
     }
   }
   resetSettings() {
-    this.nfycService.isLoading = false;
-    this.nfycService.errorMessage = '';
-    this.nfycService.apiResponse = '';
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.nfycService.resetService();
   }
 
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }
