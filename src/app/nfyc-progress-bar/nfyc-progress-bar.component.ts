@@ -4,7 +4,8 @@ import { NfycService } from '../nfyc.service';
 @Component({
   selector: 'app-nfyc-progress-bar',
   templateUrl: './nfyc-progress-bar.component.html',
-  styleUrls: ['./nfyc-progress-bar.component.css']
+  styleUrls: ['./nfyc-progress-bar.component.css'],
+  providers: [NfycService]
 })
 export class NfycProgressBarComponent implements OnInit {
 
