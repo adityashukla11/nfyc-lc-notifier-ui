@@ -1,12 +1,11 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { NfycLcUser } from './NfycLcUser';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { interval, of, Subject, timer } from 'rxjs';
-import { catchError, concatMap, delay, takeUntil, tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { of, Subject, timer } from 'rxjs';
+import { catchError, concatMap, delay, takeUntil } from 'rxjs/operators';
+import { Concept } from './Concepts';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class NfycService {
 
   constructor(private http: HttpClient) { }
@@ -26,7 +25,6 @@ export class NfycService {
       concatMap(value => timer(value * 1000).pipe(delay(value * 1000))));
 
     const messageSubscription = apiCall$.pipe(catchError(httpError => {
-      console.log('GttpERR ' + JSON.stringify(httpError));
       return of(httpError);
     })).subscribe((response) => {
       if (response.ok) {
@@ -49,4 +47,29 @@ export class NfycService {
         messageIndex++;
     });
   }
+  addConceptForUser(data: Concept) {
+    this.isLoading = true;
+    const apiCall$ = this.http.post('https://nfyc-lc-notifier.azurewebsites.net/api/saveConcept', data, { observe: 'response' });
+    return apiCall$.pipe(
+      catchError(httpError => {
+        this.isLoading = false;
+        this.errorMessage = httpError.error?.message || 'Something went wrong. Please try again';
+        return of(httpError);
+      })
+    ).subscribe((response) => {
+      this.isLoading = false;
+      if (response.ok) {
+        this.apiResponse = response.body;
+      } else {
+        this.errorMessage = response.error?.message || 'Something went wrong. Please try again.';
+      }
+    });
+  }
+
+  resetService() {
+    this.isLoading = false;
+    this.apiResponse = null;
+    this.errorMessage = null;
+  }
 }
+
